@@ -1,6 +1,6 @@
 # JosephBrowser
 Joseph Browser - The private, fast (not really), and secure web browser made with Python. 
-Windows support only. 
+Hopefully functional support for Windows, macOS, and Linux. 
 
 # Setup
 Method 1 (install dependencies)
@@ -22,4 +22,4 @@ Method 1 (install dependencies)
 Method 2 (PyInstaller)
     1. Install PyInstaller with Python
     2. Run 'pyinstaller browser.py' 
-    3. Run the .exe file in dist/JosephBrowser.exe
+    3. Run the executable file in dist/
