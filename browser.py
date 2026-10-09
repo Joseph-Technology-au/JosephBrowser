@@ -404,14 +404,15 @@ AI_PROVIDERS = {
 }
 
 # ==========================================
-# 7. INTEGRATED TOR MANAGER (CROSS-PLATFORM)
+# 7. INTEGRATED TOR MANAGER (CROSS-PLATFORM + ARM64)
 # ==========================================
 class TorManager:
     def __init__(self):
         self.process = None
         self.system = platform.system()
+        self.machine = platform.machine()
         
-        # Auto-detect OS and set correct paths
+        # Auto-detect OS and Architecture to set correct paths
         if self.system == "Windows":
             self.tor_dir = SCRIPT_DIR / "tor-win-x86_64" / "tor"
             self.tor_exe = self.tor_dir / "tor.exe"
@@ -420,7 +421,11 @@ class TorManager:
             self.snowflake_name = "snowflake-client.exe"
             self.meek_name = "meek-client.exe"
         elif self.system == "Darwin": # macOS
-            self.tor_dir = SCRIPT_DIR / "tor-macos-x86_64" / "tor"
+            # Detect Apple Silicon (ARM64) vs Intel (x86_64)
+            if self.machine in ("arm64", "aarch64"):
+                self.tor_dir = SCRIPT_DIR / "tor-macos-aarch64" / "tor"
+            else:
+                self.tor_dir = SCRIPT_DIR / "tor-macos-x86_64" / "tor"
             self.tor_exe = self.tor_dir / "tor"
             self.lyrebird_name = "lyrebird"
             self.obfs4_name = "obfs4proxy"
@@ -666,7 +671,7 @@ class ThemeManager:
 # 11. PRIVACY INTERCEPTOR
 # ==========================================
 # Updated to Chrome 154 and Firefox 135 for modern compatibility
-BRANDED_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.8037.98 Safari/537.36 JosephBrowser/2026.10.08"
+BRANDED_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 JosephBrowser/2026.10.08"
 FIREFOX_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:135.0) Gecko/20100101 Firefox/135.0"
 
 class PrivacyInterceptor(QWebEngineUrlRequestInterceptor):
